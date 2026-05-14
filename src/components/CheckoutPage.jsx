@@ -193,9 +193,9 @@ export default function CheckoutPage({ items, onBack, onAdd, onRemove, onHome })
         {/* ── Left: delivery + payment ── */}
         <div className="flex flex-col gap-7">
 
-          <div className="info-card p-8">
+          <div className="info-card p-5 md:p-8">
             <h3 className="font-serif text-[22px] font-normal text-brown mb-6">Доставка</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Field label="Ім'я та прізвище *" error={errors.name}>
                 <Input value={form.name} onChange={setF('name')} placeholder="Іван Петренко" error={errors.name} />
               </Field>
@@ -214,7 +214,7 @@ export default function CheckoutPage({ items, onBack, onAdd, onRemove, onHome })
               <Field label="Квартира">
                 <Input value={form.apt} onChange={setFDigits('apt')} placeholder="45" inputMode="numeric" />
               </Field>
-              <div className="col-span-2">
+              <div className="col-span-full">
                 <Field label="Записка до замовлення">
                   <Textarea value={form.note} onChange={setF('note')} placeholder="Зателефонуйте за 30 хв, домофон не працює…" rows={2} />
                 </Field>
@@ -222,10 +222,10 @@ export default function CheckoutPage({ items, onBack, onAdd, onRemove, onHome })
             </div>
           </div>
 
-          <div className="info-card p-8">
+          <div className="info-card p-5 md:p-8">
             <h3 className="font-serif text-[22px] font-normal text-brown mb-6">Оплата</h3>
 
-            <div className="grid grid-cols-3 gap-3 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
               {PAYMENT_OPTIONS.map(opt => (
                 <PaymentOption key={opt.id} {...opt} selected={payment === opt.id} onSelect={setPayment} />
               ))}
@@ -279,13 +279,13 @@ export default function CheckoutPage({ items, onBack, onAdd, onRemove, onHome })
         {/* ── Right: order summary ── */}
         <div className="lg:sticky lg:top-[88px]">
           <div className="info-card overflow-hidden">
-            <div className="px-7 py-5 border-b border-oat">
+            <div className="px-5 md:px-7 py-5 border-b border-oat">
               <h3 className="font-serif text-[20px] font-normal text-brown">
                 Замовлення <span className="text-brown-l text-[16px]">({count} шт.)</span>
               </h3>
             </div>
 
-            <ul className="px-7 py-5 flex flex-col gap-4 max-h-[340px] overflow-y-auto">
+            <ul className="px-5 md:px-7 py-5 flex flex-col gap-4 max-h-[340px] overflow-y-auto">
               {items.map(({ product, qty }) => (
                 <li key={product.id} className="flex gap-3 items-center">
                   <img src={product.thumb} alt={product.name} className="w-14 h-14 object-cover rounded-xl flex-shrink-0" />
@@ -303,7 +303,7 @@ export default function CheckoutPage({ items, onBack, onAdd, onRemove, onHome })
               ))}
             </ul>
 
-            <div className="px-7 pb-7 pt-4 border-t border-oat">
+            <div className="px-5 md:px-7 pb-5 md:pb-7 pt-4 border-t border-oat">
 
               {/* Promo code */}
               <div className="mb-5">
