@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Brand tokens ─────────────────────────────────────── */
+:root {
+  --brick:    #8C3D22;
+  --brick-d:  #6B2D16;
+  --paper:    #F7F2E9;
+  --cream:    #EDE2CC;
+  --oat:      #D5C5A8;
+  --brown:    #1E1108;
+  --brown-m:  #4A2C18;
+  --brown-l:  #8A6A52;
+
+  --shadow-sm:   0 2px 16px rgba(30,17,8,0.08);
+  --shadow-md:   0 2px 16px rgba(30,17,8,0.06);
+  --shadow-lg:   0 12px 40px rgba(30,17,8,0.16);
+}
+
+/* ─── Base ──────────────────────────────────────────────── */
+@layer base {
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply font-sans bg-paper text-brown overflow-x-hidden;
+    cursor: none;
+    font-size: 16px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 { @apply font-serif; }
+}
+
+/* ─── Component utilities ───────────────────────────────── */
+@layer components {
+  .eyebrow {
+    @apply text-[12px] tracking-[2px] uppercase text-brown-l flex items-center gap-2.5 mb-3;
+  }
+
+  .sec-title {
+    @apply font-serif font-normal text-brown leading-[1.1] mt-1 mb-5;
+    font-size: clamp(36px, 3.5vw, 54px);
+  }
+
+  .btn-primary {
+    @apply bg-brick text-snow border-none px-8 py-3.5 text-[13px] tracking-[1.5px]
+           uppercase cursor-none rounded-lg hover:bg-brick-d transition-all duration-200;
+  }
+
+  .btn-outline {
+    @apply bg-transparent border border-oat text-brown px-7 py-3.5 text-[13px]
+           tracking-[1.5px] uppercase cursor-none rounded-lg
+           hover:border-brick hover:text-brick transition-all duration-200;
+  }
+
+  /* food card — lift on hover via CSS, no JS handlers needed */
+  .food-card {
+    @apply bg-paper rounded-2xl overflow-hidden cursor-none;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .food-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  /* review / info card — subtle shadow, no lift */
+  .info-card {
+    @apply bg-paper rounded-2xl;
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/* ─── Custom cursor ─────────────────────────────────────── */
+#cur {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--brick);
+  pointer-events: none;
+  z-index: 9000;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s, border 0.2s;
+  top: 0;
+  left: 0;
+}
+#cur.hover {
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: 1.5px solid var(--brown);
+}
+
+/* ─── Hero badge spin ───────────────────────────────────── */
+.badge-spin      { animation: rotateBadge 20s linear infinite; }
+.badge-text-spin { animation: rotateBadge 20s linear infinite reverse; }
+
+@keyframes rotateBadge {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Hero scroll hint ──────────────────────────────────── */
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: var(--brick);
+  animation: sline 2.2s ease infinite;
+}
+@keyframes sline { to { left: 100%; } }
+
+/* ─── Touch devices: restore cursor, hide dot ───────────── */
+@media (pointer: coarse) {
+  body { cursor: auto; }
+  #cur { display: none; }
+  .cursor-none { cursor: auto; }
+  .cursor-grab  { cursor: grab; }
+  .cursor-text  { cursor: text; }
+}
+
+/* ─── Star rating (CSS-only fallback) ──────────────────── */
+.star-row:hover label,
+.star-row input:checked ~ label { color: var(--brick); }
+.star-row label:hover ~ label   { color: var(--oat); }

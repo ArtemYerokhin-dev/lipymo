@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx vite *)",
+      "WebSearch",
+      "WebFetch(domain:unsplash.com)",
+      "WebFetch(domain:www.gastronom.ru)",
+      "WebFetch(domain:www.edimdoma.ru)",
+      "WebFetch(domain:images.gastronom.ru)",
+      "WebFetch(domain:e3.edimdoma.ru)",
+      "WebFetch(domain:images.unsplash.com)",
+      "Bash(npm run *)",
+      "Bash(Remove-Item \"C:\\\\Users\\\\InYou\\\\OneDrive\\\\Desktop\\\\lepim\\\\src\\\\components\\\\MarqueeBand.jsx\")"
+    ]
+  }
+}
