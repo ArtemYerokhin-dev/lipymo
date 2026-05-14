@@ -1,64 +1,65 @@
-# ЛЕПИМ — React + Vite + Tailwind CSS
+# Lipymo
 
-## Быстрый старт
+Landing page for a small homemade food delivery in Kyiv. Dumplings, borscht, cutlets — made by hand every morning and delivered as semi-prepared meals with cooking instructions.
+
+Built with React, Vite and Tailwind CSS.
+
+## Getting started
 
 ```bash
 npm install
 npm run dev
 ```
 
-Откроется на http://localhost:5173
+Opens at http://localhost:5173
 
-## Структура проекта
+## Project structure
 
 ```
 src/
-├── App.jsx                  # Корневой компонент, собирает все блоки
-├── main.jsx                 # Точка входа React
-├── index.css                # Только базовые определения (переменные, курсор, анимации)
+├── App.jsx              # Root component, handles routing between pages
+├── main.jsx             # Entry point
+├── index.css            # CSS variables, cursor, animations
 │
-├── assets/
-│   └── data/
-│       ├── products.js      # Все блюда: название, цена, состав, фото
-│       ├── reviews.js       # Отзывы и рейтинг
-│       └── content.js       # Все тексты сайта по разделам
+├── assets/data/
+│   ├── products.js      # All dishes: name, price, ingredients, photos
+│   ├── reviews.js       # Reviews and rating
+│   └── content.js       # All site text by section
 │
 └── components/
-    ├── Cursor.jsx           # Кастомный курсор
-    ├── Nav.jsx              # Навигация
-    ├── Hero.jsx             # Главный экран
-    ├── MarqueeBand.jsx      # Бегущая строка
-    ├── Catalog.jsx          # Каталог с горизонтальным скроллом
-    ├── ProductModal.jsx     # Модальное окно блюда (состав)
-    ├── Story.jsx            # Наша история
-    ├── HowItWorks.jsx       # Как это работает
-    ├── Promo.jsx            # Промо-акция
-    ├── Reviews.jsx          # Отзывы + форма
-    └── Footer.jsx           # Подвал
+    ├── Nav.jsx           # Navigation with mobile menu
+    ├── Hero.jsx          # Main screen
+    ├── Catalog.jsx       # Horizontal scroll catalog with filters
+    ├── CatalogPage.jsx   # Full catalog page (grid layout)
+    ├── ProductModal.jsx  # Dish detail modal
+    ├── CartDrawer.jsx    # Cart sidebar
+    ├── CheckoutPage.jsx  # Order form with promo code and payment
+    ├── Story.jsx         # About us
+    ├── HowItWorks.jsx    # How ordering works
+    ├── Promo.jsx         # Discount promo block
+    ├── Reviews.jsx       # Reviews carousel and submit form
+    ├── Footer.jsx        # Footer
+    └── Cursor.jsx        # Custom cursor (hidden on touch devices)
 ```
 
-## Как вносить правки
+## Making changes
 
-### Изменить тексты
-`src/assets/data/content.js` — все тексты сайта в одном файле.
+**Edit text** — everything is in `src/assets/data/content.js`, one object per section.
 
-### Добавить/изменить блюдо
-`src/assets/data/products.js` — массив блюд. Добавьте объект по образцу.
+**Add or edit a dish** — open `src/assets/data/products.js` and add an object following the same shape as the existing ones.
 
-### Изменить цвета
-`tailwind.config.js` → `theme.extend.colors` — вся палитра.
+**Change colors** — `tailwind.config.js` under `theme.extend.colors`. CSS variables are in `src/index.css`.
 
-### Заменить фотографии
-В `products.js` замените `image` и `thumb` на путь к своим файлам:
+**Replace photos** — update `image` and `thumb` fields in `products.js`:
 ```js
-image: '/src/assets/images/mypelimeni.jpg',
-thumb: '/src/assets/images/mypelimeni-sm.jpg',
+image: '/src/assets/images/varenyky.jpg',
+thumb: '/src/assets/images/varenyky-sm.jpg',
 ```
 
-## Команды
+## Commands
 
-| Команда | Описание |
-|---------|----------|
-| `npm run dev` | Запуск dev-сервера |
-| `npm run build` | Сборка в папку `dist/` |
-| `npm run preview` | Предпросмотр сборки |
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start dev server |
+| `npm run build` | Build to `dist/` |
+| `npm run preview` | Preview the build locally |
