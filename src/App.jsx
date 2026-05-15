@@ -11,12 +11,14 @@ import Promo        from './components/Promo'
 import Reviews      from './components/Reviews'
 import Footer       from './components/Footer'
 import CartDrawer   from './components/CartDrawer'
+import MiniCart     from './components/MiniCart'
 import CatalogPage  from './components/CatalogPage'
 import CheckoutPage from './components/CheckoutPage'
 
 export default function App() {
   const [cartItems, setCartItems] = useState([])
-  const [cartOpen, setCartOpen]   = useState(false)
+  const [cartOpen, setCartOpen]       = useState(false)
+  const [miniCartOpen, setMiniCartOpen] = useState(false)
   const [modalProduct, setModalProduct] = useState(null)
   const [page, setPage] = useState('home')
 
@@ -26,7 +28,7 @@ export default function App() {
       if (existing) return items.map((i) => i.product.id === product.id ? { ...i, qty: i.qty + 1 } : i)
       return [...items, { product, qty: 1 }]
     })
-    setCartOpen(true)
+    setMiniCartOpen(true)
   }
 
   const removeFromCart = (productId) => {
@@ -39,9 +41,11 @@ export default function App() {
 
   const cartCount = cartItems.reduce((sum, i) => sum + i.qty, 0)
 
+  const openFullCart = () => { setMiniCartOpen(false); setCartOpen(true) }
+
   const goHome = () => { setPage('home'); window.scrollTo({ top: 0, behavior: 'instant' }) }
   const goCatalog = () => { setPage('catalog'); window.scrollTo({ top: 0, behavior: 'instant' }) }
-  const goCheckout = () => { setCartOpen(false); setPage('checkout'); window.scrollTo({ top: 0, behavior: 'instant' }) }
+  const goCheckout = () => { setCartOpen(false); setMiniCartOpen(false); setPage('checkout'); window.scrollTo({ top: 0, behavior: 'instant' }) }
 
   return (
     <>
@@ -84,6 +88,13 @@ export default function App() {
       )}
 
       <ProductModal product={modalProduct} onClose={() => setModalProduct(null)} onAdd={addToCart} />
+
+      <MiniCart
+        items={cartItems}
+        open={miniCartOpen && !cartOpen && page !== 'checkout'}
+        onOpenFull={openFullCart}
+        onCheckout={goCheckout}
+      />
 
       <CartDrawer
         open={cartOpen}

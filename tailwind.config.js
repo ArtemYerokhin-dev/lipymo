@@ -37,12 +37,17 @@ export default {
       animation: {
         'badge-spin': 'rotateBadge 20s linear infinite',
         'badge-text': 'rotateBadge 20s linear infinite reverse',
-        fadeUp:       'fadeUp .65s ease both',
+        fadeUp:   'fadeUp .65s ease both',
+        slideUp:  'slideUp .25s ease both',
       },
       keyframes: {
         rotateBadge: { to: { transform: 'rotate(360deg)' } },
         fadeUp: {
           from: { opacity: '0', transform: 'translateY(20px)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideUp: {
+          from: { opacity: '0', transform: 'translateY(16px)' },
           to:   { opacity: '1', transform: 'translateY(0)' },
         },
       },
