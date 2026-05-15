@@ -21,7 +21,7 @@ function loadUserReviews() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') } catch { return [] }
 }
 
-function Carousel({ reviews }) {
+function Carousel({ reviews, lang }) {
   const [idx, setIdx] = useState(0)
   const trackRef = useRef(null)
   const perPage = usePerPage()
@@ -86,7 +86,7 @@ function Carousel({ reviews }) {
               scrollSnapAlign: 'start',
             }}
           >
-            <ReviewCard review={r} />
+            <ReviewCard review={r} lang={lang} />
           </div>
         ))}
       </div>
@@ -168,10 +168,10 @@ export default function Reviews() {
 
       <div className="mb-8">
         {showCarousel ? (
-          <Carousel reviews={allReviews} />
+          <Carousel reviews={allReviews} lang={lang} />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {allReviews.map((r) => <ReviewCard key={r.id} review={r} />)}
+            {allReviews.map((r) => <ReviewCard key={r.id} review={r} lang={lang} />)}
           </div>
         )}
       </div>
@@ -250,18 +250,21 @@ export default function Reviews() {
   )
 }
 
-function ReviewCard({ review: r }) {
+function ReviewCard({ review: r, lang }) {
+  const text = typeof r.text === 'object' ? r.text[lang] : r.text
+  const city = typeof r.city === 'object' ? r.city[lang] : r.city
+
   return (
     <div className="bg-cream rounded-2xl p-7 h-full" style={{ boxShadow: '0 2px 14px rgba(30,17,8,0.05)' }}>
       <div className="text-[14px] tracking-[3px] mb-4" style={{ color: '#8C3D22' }}>
         {'★'.repeat(r.stars)}{'☆'.repeat(5 - r.stars)}
       </div>
       <p className="font-serif text-[17px] font-normal italic text-brown leading-[1.7] mb-6">
-        {r.text}
+        {text}
       </p>
       <div className="text-[13px] text-brown-l mt-auto">
         <strong className="block text-[14px] font-medium text-brown-m mb-0.5">{r.name}</strong>
-        {r.city}
+        {city}
       </div>
     </div>
   )
