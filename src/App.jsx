@@ -26,6 +26,7 @@ export default function App() {
       if (existing) return items.map((i) => i.product.id === product.id ? { ...i, qty: i.qty + 1 } : i)
       return [...items, { product, qty: 1 }]
     })
+    setCartOpen(true)
   }
 
   const removeFromCart = (productId) => {
