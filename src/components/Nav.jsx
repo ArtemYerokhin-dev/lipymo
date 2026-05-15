@@ -51,12 +51,7 @@ export default function Nav({ cartCount, onCartOpen, onLogoClick, onCheckout, pa
         </ul>
 
         <div className="flex items-center gap-3 md:gap-4">
-          <button
-            onClick={toggle}
-            className="text-[12px] tracking-[1px] text-brown-l border border-oat rounded-lg px-3 py-1.5 cursor-none hover:border-brick hover:text-brick transition-colors"
-          >
-            {lang === 'uk' ? 'EN' : 'УКР'}
-          </button>
+          <LangToggle lang={lang} toggle={toggle} />
           <span className="hidden lg:block text-[14px] text-brown-l">+380 44 123 45 67</span>
           <button
             onClick={onCartOpen}
@@ -97,14 +92,44 @@ export default function Nav({ cartCount, onCartOpen, onLogoClick, onCheckout, pa
           <a href="tel:+380441234567" className="text-[16px] text-brick no-underline font-light">
             +380 44 123 45 67
           </a>
-          <button
-            onClick={toggle}
-            className="text-[13px] tracking-[1px] text-brown-l border border-oat rounded-lg px-4 py-2 cursor-none hover:border-brick hover:text-brick transition-colors"
-          >
-            {lang === 'uk' ? 'EN' : 'УКР'}
-          </button>
+          <LangToggle lang={lang} toggle={toggle} />
         </div>
       </div>
     </>
+  )
+}
+
+function LangToggle({ lang, toggle }) {
+  const isEn = lang === 'en'
+  return (
+    <button
+      onClick={toggle}
+      className="relative flex items-center cursor-none rounded-full border border-oat bg-paper transition-colors duration-200 hover:border-brick"
+      style={{ width: 72, height: 28, padding: '2px 3px' }}
+      aria-label="Switch language"
+    >
+      {/* Labels */}
+      <span
+        className="absolute left-0 w-1/2 text-center text-[11px] tracking-[0.5px] font-medium transition-colors duration-200 select-none"
+        style={{ color: !isEn ? '#fff' : 'var(--brown-l)' }}
+      >
+        УКР
+      </span>
+      <span
+        className="absolute right-0 w-1/2 text-center text-[11px] tracking-[0.5px] font-medium transition-colors duration-200 select-none"
+        style={{ color: isEn ? '#fff' : 'var(--brown-l)' }}
+      >
+        EN
+      </span>
+      {/* Sliding pill */}
+      <span
+        className="absolute top-[2px] bottom-[2px] rounded-full transition-all duration-200"
+        style={{
+          width: 'calc(50% - 1px)',
+          left: isEn ? 'calc(50% + 1px)' : '2px',
+          background: 'var(--brick)',
+        }}
+      />
+    </button>
   )
 }

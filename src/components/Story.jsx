@@ -21,15 +21,6 @@ export default function Story() {
             </p>
           ))}
 
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {s.values.map((v) => (
-              <div key={v.title} className="bg-cream rounded-xl px-5 py-4">
-                <div className="text-[22px] mb-2">{v.icon}</div>
-                <div className="font-serif text-[16px] font-normal text-brown mb-1">{v.title}</div>
-                <p className="text-[13px] text-brown-l font-light leading-[1.65]">{v.sub}</p>
-              </div>
-            ))}
-          </div>
         </div>
 
         <div className="relative">
