@@ -1,32 +1,40 @@
 import { promo } from '../assets/data/content'
+import { useLang } from '../context/LangContext'
 
 export default function Promo() {
+  const { lang } = useLang()
+  const p = promo[lang]
+
   return (
     <section className="bg-cream py-12 md:py-16 px-5 md:px-[4.5rem]">
       <div className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-8 md:gap-14 items-center">
 
         <div>
-          <div className="eyebrow">{promo.eyebrow}</div>
+          <div className="eyebrow">{p.eyebrow}</div>
           <h2 className="sec-title mb-5">
-            {promo.title}{' '}
-            <em className="text-brick" style={{ fontStyle: 'italic' }}>{promo.titleItalic}</em>
+            {p.title}{' '}
+            <em className="text-brick" style={{ fontStyle: 'italic' }}>{p.titleItalic}</em>
           </h2>
           <p className="text-[15px] text-brown-m font-light leading-[1.9] mb-10 max-w-[380px]">
-            {promo.description}
+            {p.description}
           </p>
 
           <div className="flex items-stretch gap-0 w-fit">
             <div className="border border-oat bg-paper rounded-l-xl px-7 py-4 flex flex-col justify-center">
-              <div className="text-[11px] tracking-[2px] uppercase text-brown-l mb-1">Промокод</div>
-              <div className="font-serif text-[22px] font-normal text-brown tracking-[2px]">{promo.code}</div>
+              <div className="text-[11px] tracking-[2px] uppercase text-brown-l mb-1">
+                {lang === 'uk' ? 'Промокод' : 'Promo code'}
+              </div>
+              <div className="font-serif text-[22px] font-normal text-brown tracking-[2px]">{p.code}</div>
             </div>
             <div
               className="rounded-r-xl px-8 py-4 flex flex-col justify-center"
               style={{ background: '#8C3D22' }}
             >
-              <div className="text-[11px] tracking-[2px] uppercase mb-1" style={{ color: 'rgba(251,245,232,0.6)' }}>Знижка</div>
+              <div className="text-[11px] tracking-[2px] uppercase mb-1" style={{ color: 'rgba(251,245,232,0.6)' }}>
+                {lang === 'uk' ? 'Знижка' : 'Discount'}
+              </div>
               <div className="font-serif font-normal leading-none" style={{ fontSize: 36, color: '#FBF5E8' }}>
-                {promo.discount}
+                {p.discount}
               </div>
             </div>
           </div>
@@ -42,8 +50,8 @@ export default function Promo() {
             className="absolute top-5 right-5 bg-paper/90 backdrop-blur-sm rounded-xl px-5 py-3.5 text-right"
             style={{ boxShadow: '0 4px 20px rgba(30,17,8,0.12)' }}
           >
-            <div className="font-serif text-[12px] text-brown-l italic mb-0.5">гарантія якості</div>
-            <div className="font-serif text-[16px] font-normal text-brown leading-tight">Повернемо гроші,<br />якщо не сподобається</div>
+            <div className="font-serif text-[12px] text-brown-l italic mb-0.5">{p.qualityLabel}</div>
+            <div className="font-serif text-[16px] font-normal text-brown leading-tight">{p.qualityText}</div>
           </div>
         </div>
 

@@ -1,20 +1,24 @@
 import { useRef, useState } from 'react'
 import { products } from '../assets/data/products'
-import { catalog } from '../assets/data/content'
+import { catalog, ui } from '../assets/data/content'
+import { useLang } from '../context/LangContext'
 
 const SCROLL_STEP = 800
-const CATEGORIES = ['Всі', 'Вареники', 'Пельмені', 'Супи', 'Котлети', 'Випічка', 'Страви']
+const CATEGORY_KEYS = ['all', 'Вареники', 'Пельмені', 'Суп', 'Котлети', 'Випічка', 'Страви']
 
-function filterProducts(category) {
-  if (category === 'Всі') return products
-  if (category === 'Супи') return products.filter(p => p.category === 'Суп')
-  return products.filter(p => p.category === category)
+function filterProducts(key) {
+  if (key === 'all') return products
+  return products.filter(p => p.category === key)
 }
 
 export default function Catalog({ onOpenModal, onAddToCart, onSeeAll }) {
+  const { lang } = useLang()
+  const t = ui[lang]
+  const c = catalog[lang]
+
   const trackRef = useRef(null)
   const drag = useRef({ active: false, startX: 0, scrollLeft: 0 })
-  const [category, setCategory] = useState('Всі')
+  const [category, setCategory] = useState('all')
 
   const scroll = (dir) => trackRef.current?.scrollBy({ left: dir * SCROLL_STEP, behavior: 'smooth' })
 
@@ -33,30 +37,30 @@ export default function Catalog({ onOpenModal, onAddToCart, onSeeAll }) {
 
       <div className="flex justify-between items-end px-5 md:px-[4.5rem] mb-8">
         <div>
-          <div className="eyebrow">{catalog.eyebrow}</div>
-          <h2 className="sec-title">{catalog.title}</h2>
+          <div className="eyebrow">{c.eyebrow}</div>
+          <h2 className="sec-title">{c.title}</h2>
         </div>
         <button
           onClick={onSeeAll}
           className="text-[14px] text-brown-l flex items-center gap-2 hover:text-brick hover:gap-3 transition-all duration-200 cursor-none bg-transparent border-none"
         >
-          {catalog.seeAllLabel} →
+          {c.seeAllLabel} →
         </button>
       </div>
 
       <div className="flex gap-2 px-5 md:px-[4.5rem] mb-8 flex-wrap">
-        {CATEGORIES.map(cat => (
+        {CATEGORY_KEYS.map(key => (
           <button
-            key={cat}
-            onClick={() => setCategory(cat)}
+            key={key}
+            onClick={() => setCategory(key)}
             className="cursor-none px-5 py-2 rounded-full text-[13px] transition-all duration-200 border"
             style={{
-              background:   category === cat ? 'var(--brick)' : 'var(--paper)',
-              color:        category === cat ? '#fff' : 'var(--brown-l)',
-              borderColor:  category === cat ? 'var(--brick)' : 'var(--oat)',
+              background:   category === key ? 'var(--brick)' : 'var(--paper)',
+              color:        category === key ? '#fff' : 'var(--brown-l)',
+              borderColor:  category === key ? 'var(--brick)' : 'var(--oat)',
             }}
           >
-            {cat}
+            {t.categories[key]}
           </button>
         ))}
       </div>
@@ -78,6 +82,8 @@ export default function Catalog({ onOpenModal, onAddToCart, onSeeAll }) {
             <ProductCard
               key={p.id}
               product={p}
+              lang={lang}
+              t={t}
               onInfo={() => onOpenModal(p)}
               onAdd={() => onAddToCart(p)}
             />
@@ -90,7 +96,7 @@ export default function Catalog({ onOpenModal, onAddToCart, onSeeAll }) {
           onClick={onSeeAll}
           className="btn-primary px-10 py-4 text-[15px]"
         >
-          Замовити зараз
+          {c.orderNow}
         </button>
       </div>
 
@@ -114,7 +120,7 @@ function ScrollBtn({ onClick, icon, side, className = '' }) {
   )
 }
 
-function ProductCard({ product, onInfo, onAdd }) {
+function ProductCard({ product, lang, t, onInfo, onAdd }) {
   const [justAdded, setJustAdded] = useState(false)
 
   const handleAdd = (e) => {
@@ -129,21 +135,21 @@ function ProductCard({ product, onInfo, onAdd }) {
       <div className="h-[300px] overflow-hidden relative">
         <img
           src={product.thumb}
-          alt={product.name}
+          alt={product.name[lang]}
           loading="lazy"
           className="w-full h-full object-cover brightness-[.88] saturate-110 group-hover:scale-105 transition-transform duration-500"
         />
-        {product.tag && (
+        {product.tag[lang] && (
           <span className="absolute top-4 left-4 bg-brick text-snow text-[10px] tracking-[1.5px] uppercase px-3 py-1.5 rounded-md">
-            {product.tag}
+            {product.tag[lang]}
           </span>
         )}
       </div>
 
       <div className="px-6 pt-5 pb-6">
-        <div className="text-[11px] tracking-[2px] uppercase text-brown-l mb-1.5">{product.category}</div>
-        <div className="font-serif text-[23px] font-normal text-brown leading-tight mb-1">{product.name}</div>
-        <div className="text-[13px] text-brown-l font-light mb-5">{product.weight}</div>
+        <div className="text-[11px] tracking-[2px] uppercase text-brown-l mb-1.5">{product.categoryLabel[lang]}</div>
+        <div className="font-serif text-[23px] font-normal text-brown leading-tight mb-1">{product.name[lang]}</div>
+        <div className="text-[13px] text-brown-l font-light mb-5">{product.weight[lang]}</div>
 
         <div className="flex justify-between items-center">
           <span className="font-serif text-[30px] font-normal text-brown leading-none">{product.price} ₴</span>

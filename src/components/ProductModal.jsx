@@ -1,6 +1,11 @@
 import { useEffect } from 'react'
+import { ui } from '../assets/data/content'
+import { useLang } from '../context/LangContext'
 
 export default function ProductModal({ product, onClose, onAdd }) {
+  const { lang } = useLang()
+  const t = ui[lang]
+
   useEffect(() => {
     if (!product) return
     document.body.style.overflow = 'hidden'
@@ -23,7 +28,7 @@ export default function ProductModal({ product, onClose, onAdd }) {
         <div className="relative h-[220px] md:h-auto md:min-h-[380px] flex-shrink-0">
           <img
             src={product.image}
-            alt={product.name}
+            alt={product.name[lang]}
             className="w-full h-full object-cover brightness-[.88]"
           />
           <button
@@ -36,16 +41,16 @@ export default function ProductModal({ product, onClose, onAdd }) {
 
         <div className="p-6 md:p-10 flex flex-col overflow-y-auto">
           <div className="text-[12px] tracking-[1.5px] uppercase text-brick mb-2">
-            {product.category}
+            {product.categoryLabel[lang]}
           </div>
           <h3 className="font-serif text-[28px] font-normal text-brown leading-tight mb-1">
-            {product.name}
+            {product.name[lang]}
           </h3>
-          <div className="text-[14px] text-brown-l mb-6">{product.weight}</div>
+          <div className="text-[14px] text-brown-l mb-6">{product.weight[lang]}</div>
 
-          <div className="text-[12px] tracking-[1.5px] uppercase text-brown-l mb-3">Склад</div>
+          <div className="text-[12px] tracking-[1.5px] uppercase text-brown-l mb-3">{t.ingredients}</div>
           <ul className="list-none mb-auto">
-            {product.ingredients.map((ing, i) => (
+            {product.ingredients[lang].map((ing, i) => (
               <li
                 key={i}
                 className="text-[15px] text-brown-m font-light py-2 border-b border-oat flex items-center gap-2.5"
@@ -62,7 +67,7 @@ export default function ProductModal({ product, onClose, onAdd }) {
               onClick={() => { onAdd(product); onClose() }}
               className="btn-primary"
             >
-              До кошика
+              {t.addToCart}
             </button>
           </div>
         </div>

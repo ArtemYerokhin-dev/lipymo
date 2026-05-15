@@ -1,6 +1,10 @@
 import { useEffect } from 'react'
+import { ui } from '../assets/data/content'
+import { useLang } from '../context/LangContext'
 
 export default function CartDrawer({ open, items, onClose, onRemove, onAdd, onCheckout }) {
+  const { lang } = useLang()
+  const t = ui[lang]
   const total = items.reduce((sum, i) => sum + i.product.price * i.qty, 0)
 
   useEffect(() => {
@@ -28,7 +32,7 @@ export default function CartDrawer({ open, items, onClose, onRemove, onAdd, onCh
       >
         {/* Header */}
         <div className="flex justify-between items-center px-8 py-6 border-b border-oat">
-          <h2 className="font-serif text-[22px] font-normal text-brown">Кошик</h2>
+          <h2 className="font-serif text-[22px] font-normal text-brown">{t.cart}</h2>
           <button
             onClick={onClose}
             className="w-8 h-8 flex items-center justify-center text-[22px] text-brown-l hover:text-brown cursor-none transition-colors leading-none rounded-lg hover:bg-cream"
@@ -41,16 +45,16 @@ export default function CartDrawer({ open, items, onClose, onRemove, onAdd, onCh
         <div className="flex-1 overflow-y-auto px-8 py-6">
           {items.length === 0 ? (
             <p className="text-center text-brown-l text-[14px] mt-24 leading-[2.2]">
-              Кошик порожній.<br />Оберіть страву з меню.
+              {t.cartEmpty}<br />{t.cartEmptySub}
             </p>
           ) : (
             <ul className="flex flex-col gap-5">
               {items.map(({ product, qty }) => (
                 <li key={product.id} className="flex gap-4 items-center border-b border-oat pb-5">
-                  <img src={product.thumb} alt={product.name} className="w-16 h-16 object-cover rounded-xl flex-shrink-0" />
+                  <img src={product.thumb} alt={product.name[lang]} className="w-16 h-16 object-cover rounded-xl flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <div className="text-[15px] font-medium text-brown truncate">{product.name}</div>
-                    <div className="text-[13px] text-brown-l mt-0.5">{product.weight}</div>
+                    <div className="text-[15px] font-medium text-brown truncate">{product.name[lang]}</div>
+                    <div className="text-[13px] text-brown-l mt-0.5">{product.weight[lang]}</div>
                     <div className="text-[14px] text-brick mt-1 font-medium">{product.price * qty} ₴</div>
                   </div>
                   <QtyControl
@@ -68,11 +72,11 @@ export default function CartDrawer({ open, items, onClose, onRemove, onAdd, onCh
         {items.length > 0 && (
           <div className="px-8 py-6 border-t border-oat">
             <div className="flex justify-between items-baseline mb-5">
-              <span className="text-[13px] tracking-[1.5px] uppercase text-brown-l">Разом</span>
+              <span className="text-[13px] tracking-[1.5px] uppercase text-brown-l">{t.cartTotal}</span>
               <span className="font-serif text-[30px] font-normal text-brown">{total} ₴</span>
             </div>
             <button onClick={onCheckout} className="w-full btn-primary py-4 text-center">
-              Оформити замовлення
+              {t.checkout}
             </button>
           </div>
         )}

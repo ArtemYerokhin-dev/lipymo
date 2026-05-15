@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { reviews as defaultReviews, ratingInfo } from '../assets/data/reviews'
 import { reviewsSection } from '../assets/data/content'
+import { useLang } from '../context/LangContext'
 
 const STORAGE_KEY = 'lepimo_reviews'
 const GAP = 20
@@ -111,6 +112,9 @@ function Carousel({ reviews }) {
 }
 
 export default function Reviews() {
+  const { lang } = useLang()
+  const rs = reviewsSection[lang]
+
   const [userReviews, setUserReviews] = useState(loadUserReviews)
   const [form, setForm]               = useState({ name: '', dish: '', text: '', stars: 0 })
   const [hoverStar, setHoverStar]     = useState(0)
@@ -148,8 +152,8 @@ export default function Reviews() {
 
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-10">
         <div>
-          <div className="eyebrow">{reviewsSection.eyebrow}</div>
-          <h2 className="sec-title">{reviewsSection.title}</h2>
+          <div className="eyebrow">{rs.eyebrow}</div>
+          <h2 className="sec-title">{rs.title}</h2>
         </div>
         <div className="text-right">
           <div className="font-serif font-normal leading-none" style={{ fontSize: 46, color: '#8C3D22' }}>
@@ -157,7 +161,7 @@ export default function Reviews() {
           </div>
           <div className="text-[15px] tracking-[4px] mt-1" style={{ color: '#8C3D22' }}>★★★★★</div>
           <div className="text-[12px] tracking-wider mt-1 text-brown-l">
-            {ratingInfo.total + userReviews.length} відгуки
+            {ratingInfo.total + userReviews.length} {rs.countSuffix}
           </div>
         </div>
       </div>
@@ -175,11 +179,11 @@ export default function Reviews() {
       {/* Form */}
       <div className="bg-cream rounded-2xl p-5 md:p-8" style={{ boxShadow: '0 2px 14px rgba(30,17,8,0.05)' }}>
         <h3 className="font-serif text-[22px] font-normal text-brown mb-6">
-          {reviewsSection.formTitle}
+          {rs.formTitle}
         </h3>
 
         <div className="flex items-center gap-3 mb-5">
-          <span className="text-[13px] tracking-wider text-brown-l uppercase">Оцінка:</span>
+          <span className="text-[13px] tracking-wider text-brown-l uppercase">{rs.ratingLabel}</span>
           <div className="flex gap-2 flex-row-reverse justify-end">
             {[5, 4, 3, 2, 1].map((s) => (
               <label
@@ -194,38 +198,38 @@ export default function Reviews() {
               </label>
             ))}
           </div>
-          {errors.stars && <span className="text-[12px] text-brick ml-2">Оберіть оцінку</span>}
+          {errors.stars && <span className="text-[12px] text-brick ml-2">{rs.ratingError}</span>}
         </div>
 
         <div className="flex flex-col gap-3 mb-3">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] tracking-[1.5px] uppercase text-brown-l">Ваше ім'я</label>
+              <label className="text-[12px] tracking-[1.5px] uppercase text-brown-l">{rs.nameLabel}</label>
               <input
                 type="text"
                 value={form.name}
                 onChange={(e) => setForm(f => ({ ...f, name: e.target.value }))}
-                placeholder="Як вас звати?"
+                placeholder={rs.namePlaceholder}
                 className={`bg-paper border px-4 py-3 text-[15px] text-brown font-light outline-none rounded-xl transition-colors duration-200 cursor-text ${errors.name ? 'border-brick' : 'border-oat focus:border-brown-l'}`}
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] tracking-[1.5px] uppercase text-brown-l">Страва (необов'язково)</label>
+              <label className="text-[12px] tracking-[1.5px] uppercase text-brown-l">{rs.dishLabel}</label>
               <input
                 type="text"
                 value={form.dish}
                 onChange={(e) => setForm(f => ({ ...f, dish: e.target.value }))}
-                placeholder="Що замовляли?"
+                placeholder={rs.dishPlaceholder}
                 className="bg-paper border border-oat focus:border-brown-l px-4 py-3 text-[15px] text-brown font-light outline-none rounded-xl transition-colors duration-200 cursor-text"
               />
             </div>
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] tracking-[1.5px] uppercase text-brown-l">Відгук</label>
+            <label className="text-[12px] tracking-[1.5px] uppercase text-brown-l">{rs.reviewLabel}</label>
             <textarea
               value={form.text}
               onChange={(e) => setForm(f => ({ ...f, text: e.target.value }))}
-              placeholder="Розкажіть, як вам наша їжа..."
+              placeholder={rs.reviewPlaceholder}
               rows={3}
               className={`bg-paper border px-4 py-3 text-[15px] text-brown font-light outline-none rounded-xl resize-none transition-colors duration-200 cursor-text ${errors.text ? 'border-brick' : 'border-oat focus:border-brown-l'}`}
             />
@@ -233,12 +237,12 @@ export default function Reviews() {
         </div>
 
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-3">
-          <span className="text-[14px] text-brown-l font-light">{reviewsSection.formNote}</span>
-          <button onClick={handleSubmit} className="btn-primary">Надіслати відгук</button>
+          <span className="text-[14px] text-brown-l font-light">{rs.formNote}</span>
+          <button onClick={handleSubmit} className="btn-primary">{rs.submitBtn}</button>
         </div>
 
         {submitted && (
-          <div className="mt-4 text-[14px] text-brick">{reviewsSection.formSuccess}</div>
+          <div className="mt-4 text-[14px] text-brick">{rs.formSuccess}</div>
         )}
       </div>
 

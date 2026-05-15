@@ -1,7 +1,11 @@
 import { useState } from 'react'
+import { useLang } from '../context/LangContext'
+import { ui } from '../assets/data/content'
 
 export default function Nav({ cartCount, onCartOpen, onLogoClick, onCheckout, page, onGoHome }) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { lang, toggle } = useLang()
+  const t = ui[lang]
 
   const close = () => setMobileOpen(false)
 
@@ -16,10 +20,10 @@ export default function Nav({ cartCount, onCartOpen, onLogoClick, onCheckout, pa
   }
 
   const navItems = [
-    { label: 'Меню',     action: () => scrollTo('catalog') },
-    { label: 'Про нас',  action: () => scrollTo('story')   },
-    { label: 'Доставка', action: () => { close(); onCheckout() } },
-    { label: 'Відгуки',  action: () => scrollTo('reviews') },
+    { label: t.nav[0], action: () => scrollTo('catalog') },
+    { label: t.nav[1], action: () => scrollTo('story')   },
+    { label: t.nav[2], action: () => { close(); onCheckout() } },
+    { label: t.nav[3], action: () => scrollTo('reviews') },
   ]
 
   return (
@@ -46,13 +50,19 @@ export default function Nav({ cartCount, onCartOpen, onLogoClick, onCheckout, pa
           ))}
         </ul>
 
-        <div className="flex items-center gap-3 md:gap-5">
+        <div className="flex items-center gap-3 md:gap-4">
+          <button
+            onClick={toggle}
+            className="text-[12px] tracking-[1px] text-brown-l border border-oat rounded-lg px-3 py-1.5 cursor-none hover:border-brick hover:text-brick transition-colors"
+          >
+            {lang === 'uk' ? 'EN' : 'УКР'}
+          </button>
           <span className="hidden lg:block text-[14px] text-brown-l">+380 44 123 45 67</span>
           <button
             onClick={onCartOpen}
             className="bg-brick text-snow border-none px-4 md:px-5 py-2.5 text-[13px] tracking-[1px] cursor-none hover:bg-brick-d transition-colors duration-200 rounded-lg"
           >
-            Кошик{cartCount > 0 ? ` — ${cartCount}` : ''}
+            {t.cart}{cartCount > 0 ? ` — ${cartCount}` : ''}
           </button>
 
           <button
@@ -83,9 +93,17 @@ export default function Nav({ cartCount, onCartOpen, onLogoClick, onCheckout, pa
             </li>
           ))}
         </ul>
-        <a href="tel:+380441234567" className="mt-8 text-[16px] text-brick no-underline font-light">
-          +380 44 123 45 67
-        </a>
+        <div className="mt-8 flex items-center gap-4">
+          <a href="tel:+380441234567" className="text-[16px] text-brick no-underline font-light">
+            +380 44 123 45 67
+          </a>
+          <button
+            onClick={toggle}
+            className="text-[13px] tracking-[1px] text-brown-l border border-oat rounded-lg px-4 py-2 cursor-none hover:border-brick hover:text-brick transition-colors"
+          >
+            {lang === 'uk' ? 'EN' : 'УКР'}
+          </button>
+        </div>
       </div>
     </>
   )

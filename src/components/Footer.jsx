@@ -1,8 +1,12 @@
 import { footer } from '../assets/data/content'
+import { useLang } from '../context/LangContext'
 
 const ACCENT = '#8C3D22'
 
 export default function Footer() {
+  const { lang } = useLang()
+  const f = footer[lang]
+
   return (
     <footer className="bg-brown pt-12 md:pt-20 pb-8 px-5 md:px-[4.5rem]">
       <div className="grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-8 md:gap-12 mb-10 md:mb-14">
@@ -11,14 +15,14 @@ export default function Footer() {
             ЛІПИ<em className="not-italic" style={{ color: ACCENT }}>МО</em>
           </span>
           <p className="text-[14px] leading-[1.8] font-light mb-6" style={{ color: 'rgba(253,250,245,0.5)' }}>
-            {footer.description}
+            {f.description}
           </p>
           <a href={`tel:${footer.phone}`} className="text-[14px] no-underline" style={{ color: ACCENT }}>
             {footer.phone}
           </a>
         </div>
 
-        {footer.columns.map((col) => (
+        {f.columns.map((col) => (
           <div key={col.heading}>
             <h4
               className="text-[12px] tracking-[2px] uppercase font-normal mb-5"
@@ -49,8 +53,8 @@ export default function Footer() {
         className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 pt-8 text-[13px]"
         style={{ borderTop: '1px solid rgba(255,255,255,0.07)', color: 'rgba(253,250,245,0.3)' }}
       >
-        <span>{footer.copy}</span>
-        <span>Політика конфіденційності</span>
+        <span>{f.copy}</span>
+        <span>{f.privacy}</span>
       </div>
     </footer>
   )
