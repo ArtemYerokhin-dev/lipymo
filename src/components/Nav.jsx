@@ -104,32 +104,38 @@ function LangToggle({ lang, toggle }) {
   return (
     <button
       onClick={toggle}
-      className="relative flex items-center cursor-none rounded-full border border-oat bg-paper transition-colors duration-200 hover:border-brick"
-      style={{ width: 72, height: 28, padding: '2px 3px' }}
+      className="relative flex items-center cursor-none rounded-full border border-oat bg-paper/60 backdrop-blur-sm transition-colors duration-200 hover:border-brick/60"
+      style={{ width: 84, height: 34, padding: '3px' }}
       aria-label="Switch language"
     >
-      {/* Labels */}
+      {/* Background labels */}
       <span
-        className="absolute left-0 w-1/2 text-center text-[11px] tracking-[0.5px] font-medium transition-colors duration-200 select-none"
-        style={{ color: !isEn ? '#fff' : 'var(--brown-l)' }}
+        className="absolute left-0 w-1/2 text-center text-[11px] tracking-[0.5px] font-medium transition-colors duration-200 select-none z-10"
+        style={{ color: !isEn ? 'rgba(251,245,232,0.95)' : 'var(--brown-l)' }}
       >
         УКР
       </span>
       <span
-        className="absolute right-0 w-1/2 text-center text-[11px] tracking-[0.5px] font-medium transition-colors duration-200 select-none"
-        style={{ color: isEn ? '#fff' : 'var(--brown-l)' }}
+        className="absolute right-0 w-1/2 text-center text-[11px] tracking-[0.5px] font-medium transition-colors duration-200 select-none z-10"
+        style={{ color: isEn ? 'rgba(251,245,232,0.95)' : 'var(--brown-l)' }}
       >
         EN
       </span>
       {/* Sliding pill */}
       <span
-        className="absolute top-[2px] bottom-[2px] rounded-full transition-all duration-200"
+        className="absolute top-[3px] bottom-[3px] rounded-full transition-all duration-250 flex items-center justify-center z-20"
         style={{
-          width: 'calc(50% - 1px)',
-          left: isEn ? 'calc(50% + 1px)' : '2px',
-          background: 'var(--brick)',
+          width: 'calc(50% - 2px)',
+          left: isEn ? 'calc(50% + 1px)' : '3px',
+          background: 'rgba(140,61,34,0.72)',
+          backdropFilter: 'blur(4px)',
+          boxShadow: '0 1px 6px rgba(140,61,34,0.25)',
         }}
-      />
+      >
+        <span className="text-[11px] tracking-[0.5px] font-medium select-none" style={{ color: 'rgba(251,245,232,0.95)' }}>
+          {isEn ? 'EN' : 'УКР'}
+        </span>
+      </span>
     </button>
   )
 }
